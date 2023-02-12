@@ -1,0 +1,47 @@
+plugins {
+    id 'java'
+    id 'war'
+    id "io.freefair.lombok" version("6.6.1")
+}
+
+group 'com.ebstudy'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    junitVersion = '5.8.2'
+}
+
+sourceCompatibility = '11'
+targetCompatibility = '11'
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+dependencies {
+    implementation('javax.servlet:javax.servlet-api:4.0.1')
+    implementation group: 'javax.servlet', name: 'jstl', version: '1.2'
+    implementation 'org.apache.tomcat:tomcat-jasper:9.0.71'
+
+    // MariaDB
+    implementation 'org.mariadb.jdbc:mariadb-java-client:3.1.2'
+
+    // Bootstrap, jQeury
+    implementation group: 'org.webjars', name: 'jquery', version: '3.3.1'
+    implementation group: 'org.webjars', name: 'bootstrap', version: '5.1.3'
+
+
+    // cor.jar을 추가하기 위해 로컬 의존성 추가
+    implementation fileTree(dir: 'libs', includes: ['*.jar'])
+
+    testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
+}
+
+test {
+    useJUnitPlatform()
+}

@@ -1,11 +1,5 @@
-<%@ page import="com.ebstudy.board_v2.Post.PostDTO" %>
-<%@ page import="com.ebstudy.board_v2.Post.PostDAO" %><%--
-  Created by IntelliJ IDEA.
-  User: wooseok
-  Date: 2023/02/05
-  Time: 5:27 PM
-  To change this template use File | Settings | File Templates.
---%>
+<%@ page import="com.ebstudy.board_v2.web.dto.PostDTO" %>
+<%@ page import="com.ebstudy.board_v2.repository.PostDAO" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>

@@ -1,11 +1,6 @@
-<%@ page import="com.ebstudy.board_v2.Post.PostDAO" %>
-<%@ page import="com.ebstudy.board_v2.Post.PostDTO" %><%--
-  Created by IntelliJ IDEA.
-  User: wooseok
-  Date: 2023/02/11
-  Time: 11:08 AM
-  To change this template use File | Settings | File Templates.
---%>
+<%@ page import="com.ebstudy.board_v2.repository.PostDAO" %>
+<%@ page import="com.ebstudy.board_v2.web.dto.PostDTO" %>
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     Long postId = Long.parseLong(request.getParameter("postId"));

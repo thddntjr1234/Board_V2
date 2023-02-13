@@ -6,8 +6,8 @@
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.LinkedList" %>
 <%@ page import="com.ebstudy.board_v2.*" %>
-<%@ page import="com.ebstudy.board_v2.Comment.CommentDAO" %>
-<%@ page import="com.ebstudy.board_v2.Comment.CommentDTO" %>
+<%@ page import="com.ebstudy.board_v2.repository.CommentDAO" %>
+<%@ page import="com.ebstudy.board_v2.web.dto.CommentDTO" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <html>
 <head>

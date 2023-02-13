@@ -3,9 +3,8 @@
 <%@ page import="java.sql.SQLException" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.time.format.DateTimeFormatter" %>
-<%@ page import="java.util.HashMap" %>
-<%@ page import="com.ebstudy.board_v2.Post.PostDAO" %>
-<%@ page import="com.ebstudy.board_v2.Post.PostDTO" %>
+<%@ page import="com.ebstudy.board_v2.repository.PostDAO" %>
+<%@ page import="com.ebstudy.board_v2.web.dto.PostDTO" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css"/>
@@ -21,7 +20,6 @@
     <%--bootstrap, datetimepicker 적용--%>
     <%--bootstrap, jquery--%>
     <link rel="stylesheet" href="/webjars/bootstrap/5.1.3/css/bootstrap.css">
-    <%--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">--%>
 </head>
 <%
     PostDAO postDAO = PostDAO.getInstance();
@@ -42,15 +40,14 @@
                 <option value="all">전체 카테고리</option>
                 <%
                     // TODO: 카테고리 분리 필요
-                    List<PostDTO> categoryList;
+                    List<String> categoryList;
                     try {
                         categoryList = postDAO.getCategoryList();
                     } catch (SQLException | ClassNotFoundException e) {
                         throw new RuntimeException(e);
                     }
 
-                    for (PostDTO postDTO : categoryList) {
-                        String category = postDTO.getCategory();
+                    for (String category : categoryList) {
                         out.println("<option value=" + category + ">" + category + "</option>");
                     }
                 %>

@@ -1,46 +1,47 @@
-# DROP TABLE IF EXISTS `posts`;
-
 CREATE TABLE `posts` (
-                         `id`	bigint	NOT NULL auto_increment PRIMARY KEY ,
+                         `post_id`	bigint	NOT NULL,
                          `created_date`	datetime	NULL,
                          `modified_date`	datetime	NULL,
                          `title`	varchar(255)	NULL,
-                         `author`	varchar(255)	NULL,
+                         `author`	varchar(5)	NULL,
                          `content`	TEXT	NULL,
                          `hits`	bigint	NOT NULL	DEFAULT 0,
-                         `category`	varchar(255)	NULL,
-                         `pwd`	varchar(255)	NULL
+                         `passwd`	varchar(255)	NULL,
+                         `file_flag`	boolean	NOT NULL	DEFAULT false,
+                         `category_id`	bigint	NOT NULL
 );
 
-# DROP TABLE IF EXISTS `files`;
+ALTER TABLE `posts` ADD CONSTRAINT `PK_POSTS` PRIMARY KEY (
+                                                           `post_id`
+    );
 
 CREATE TABLE `files` (
-                         `id`	bigint	NOT NULL references posts(id),
-                         `file_path_1`	varchar(1000)	NULL,
-                         `file_path_2`	varchar(1000)	NULL,
-                         `file_path_3`	varchar(1000)	NULL,
-                         `file_name_1`	varchar(1000)	NULL,
-                         `file_name_2`	varchar(1000)	NULL,
-                         `file_name_3`	varchar(1000)	NULL
+                         `file_id`	bigint	NOT NULL,
+                         `fileName`	varchar(1000)	NOT NULL,
+                         `fileRealName`	varchar(1000)	NOT NULL,
+                         `post_id`	bigint	NOT NULL
 );
 
-create table comments
-(
-    created_date timestamp    not null,
-    comment      varchar(255) not null,
-    post_id      int          null,
-    constraint comments_posts_id_fk
-        foreign key (post_id) references posts (id)
+ALTER TABLE `files` ADD CONSTRAINT `PK_FILES` PRIMARY KEY (
+                                                           `file_id`
+    );
+
+CREATE TABLE `category` (
+                            `category_id`	bigint	NOT NULL,
+                            `category`	varchar(255)	NOT NULL
 );
 
+ALTER TABLE `category` ADD CONSTRAINT `PK_CATEGORY` PRIMARY KEY (
+                                                                 `category_id`
+    );
 
+CREATE TABLE `comments` (
+                            `comment_id`	bigint	NOT NULL,
+                            `comment`	varchar(255)	NOT NULL,
+                            `created_date`	datetime	NOT NULL,
+                            `post_id`	bigint	NOT NULL
+);
 
-CREATE TABLE category (category varchar(255) NULL primary key );
-
-
-ALTER TABLE `comments` ADD CONSTRAINT `FK_posts_TO_comments_1` FOREIGN KEY (
-                                                                            `id`
-    )
-    REFERENCES `posts` (
-                        `id`
-        );
+ALTER TABLE `comments` ADD CONSTRAINT `PK_COMMENTS` PRIMARY KEY (
+                                                                 `comment_id`
+    );

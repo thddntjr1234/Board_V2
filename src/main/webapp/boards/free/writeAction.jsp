@@ -1,11 +1,11 @@
 <%@ page import="com.oreilly.servlet.MultipartRequest" %>
 <%@ page import="com.oreilly.servlet.multipart.DefaultFileRenamePolicy" %>
 <%@ page import="java.util.Enumeration" %>
-<%@ page import="com.ebstudy.board_v2.Post.PostDAO" %>
-<%@ page import="com.ebstudy.board_v2.Post.PostDTO" %>
+<%@ page import="com.ebstudy.board_v2.repository.PostDAO" %>
+<%@ page import="com.ebstudy.board_v2.web.dto.PostDTO" %>
 <%@ page import="java.sql.SQLException" %>
-<%@ page import="com.ebstudy.board_v2.File.FileDAO" %>
-<%@ page import="com.ebstudy.board_v2.File.FileDTO" %>
+<%@ page import="com.ebstudy.board_v2.repository.FileDAO" %>
+<%@ page import="com.ebstudy.board_v2.web.dto.FileDTO" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.LinkedList" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>

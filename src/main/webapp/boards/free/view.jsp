@@ -2,12 +2,12 @@
 <%@ page import="java.sql.SQLException" %>
 <%@ page import="java.time.format.DateTimeFormatter" %>
 <%@ page import="java.io.File" %>
-<%@ page import="com.ebstudy.board_v2.Post.PostDAO" %>
-<%@ page import="com.ebstudy.board_v2.Post.PostDTO" %>
-<%@ page import="com.ebstudy.board_v2.File.FileDAO" %>
-<%@ page import="com.ebstudy.board_v2.Comment.CommentDAO" %>
-<%@ page import="com.ebstudy.board_v2.File.FileDTO" %>
-<%@ page import="com.ebstudy.board_v2.Comment.CommentDTO" %>
+<%@ page import="com.ebstudy.board_v2.repository.PostDAO" %>
+<%@ page import="com.ebstudy.board_v2.web.dto.PostDTO" %>
+<%@ page import="com.ebstudy.board_v2.repository.FileDAO" %>
+<%@ page import="com.ebstudy.board_v2.repository.CommentDAO" %>
+<%@ page import="com.ebstudy.board_v2.web.dto.FileDTO" %>
+<%@ page import="com.ebstudy.board_v2.web.dto.CommentDTO" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>

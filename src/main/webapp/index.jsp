@@ -8,7 +8,10 @@
 <h1><%= "Hello World!" %>
 </h1>
 <br/>
-<a href="hello-servlet">Hello Servlet</a>
+
+<script>
+    // location.href="/boards/free/list.jsp"
+</script>
 
 </body>
 </html>

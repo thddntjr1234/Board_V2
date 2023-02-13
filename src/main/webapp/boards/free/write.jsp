@@ -1,5 +1,5 @@
-<%@ page import="com.ebstudy.board_v2.Post.PostDTO" %>
-<%@ page import="com.ebstudy.board_v2.Post.PostDAO" %>
+<%@ page import="com.ebstudy.board_v2.web.dto.PostDTO" %>
+<%@ page import="com.ebstudy.board_v2.repository.PostDAO" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.sql.SQLException" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -16,7 +16,7 @@
 </head>
 <%
     PostDAO postDAO = PostDAO.getInstance();
-    List<PostDTO> categoryList;
+    List<String> categoryList;
     try {
         categoryList = postDAO.getCategoryList();
     } catch (SQLException | ClassNotFoundException e) {
@@ -37,8 +37,7 @@
                     <select class="form-select-sm" name="category" name="category" required>
                         <option value="">카테고리 선택</option>
                         <%
-                            for (PostDTO postDTO : categoryList) {
-                                String category = postDTO.getCategory();
+                            for (String category : categoryList) {
                                 out.println("<option value=" + category + ">" + category + "</option>");
                             }
                         %>

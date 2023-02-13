@@ -1,4 +1,4 @@
-package com.ebstudy.board_v2.Post;
+package com.ebstudy.board_v2.web.dto;
 
 import lombok.Builder;
 import lombok.Getter;

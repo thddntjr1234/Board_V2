@@ -1,7 +1,8 @@
-package com.ebstudy.board_v2.Comment;
+package com.ebstudy.board_v2.repository;
 
 
-import com.ebstudy.board_v2.Connection.MyConnection;
+import com.ebstudy.board_v2.web.dto.CommentDTO;
+import com.ebstudy.board_v2.config.MyConnection;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -17,8 +18,6 @@ public class CommentDAO {
 
     private MyConnection myConnection = MyConnection.getInstance();
 
-    private Connection conn;
-
     public static CommentDAO getInstance() {
         return commentDAO;
     }
@@ -27,8 +26,9 @@ public class CommentDAO {
     }
 
     public List<CommentDTO> getCommentList(Long postId) {
-        ResultSet rs = null;
+        Connection conn = null;
         PreparedStatement pstmt = null;
+        ResultSet rs = null;
 
         List<CommentDTO> comments = new LinkedList<>();
         try {
@@ -58,9 +58,9 @@ public class CommentDAO {
     }
 
     public void saveComment(CommentDTO commentDTO) {
+        Connection conn = null;
         PreparedStatement pstmt = null;
 
-        List<CommentDTO> comments = new LinkedList<>();
         try {
             conn = myConnection.getConnection();
             pstmt = conn.prepareStatement("INSERT INTO comments(post_id, comment, created_date) VALUES (?, ?, ?)");

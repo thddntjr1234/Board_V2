@@ -1,4 +1,4 @@
-package com.ebstudy.board_v2.Connection;
+package com.ebstudy.board_v2.config;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

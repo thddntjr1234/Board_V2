@@ -5,7 +5,8 @@ import lombok.Getter;
 
 @Getter @Builder
 public class FileDTO {
-    private Long postid;
+    private Long postId;
+    private Long fileId;
     private String fileName;
     private String fileRealName;
 }

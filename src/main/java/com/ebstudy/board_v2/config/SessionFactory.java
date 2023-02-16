@@ -22,7 +22,7 @@ public class SessionFactory {
             String resource = "/mybatis-config.xml";
 
             reader = Resources.getResourceAsReader(resource);
-            SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
+            sessionFactory = new SqlSessionFactoryBuilder().build(reader);
 
         } catch (Exception e) {
             System.out.println("mybatis-config 설정 실패: " + e);

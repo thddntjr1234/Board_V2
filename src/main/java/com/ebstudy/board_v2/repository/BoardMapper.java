@@ -11,7 +11,7 @@ public interface BoardMapper {
 
     List<PostDTO> getPostList(int pageNumber);
 
-    long getPostCount();
+    int getPostCount();
 
     PostDTO getPost(long postId);
 

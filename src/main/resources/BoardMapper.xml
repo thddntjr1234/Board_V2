@@ -38,7 +38,7 @@
         LIMIT #{pageNumber}, 10;
     </select>
 
-    <select id="getPostCount" resultType="long">
+    <select id="getPostCount" resultType="int">
         SELECT COUNT(post_id)
         FROM posts;
     </select>

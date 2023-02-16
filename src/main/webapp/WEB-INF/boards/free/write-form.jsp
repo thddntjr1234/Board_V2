@@ -74,7 +74,7 @@
             </tr>
             <tr>
                 <td colspan="2">
-                    <button class="btn btn-secondary" onclick="location.href='/boards/free/list.jsp';">취소</button>
+                    <button class="btn btn-secondary" onclick="location.href='list.jsp';">취소</button>
                 </td>
                 <td>
                     <button class="btn btn-secondary" type="submit" id="btnSubmit">저장</button>
@@ -145,7 +145,7 @@
             success: function () {
                 console.log("success");
                 alert("저장 성공");
-                window.location.href="/boards/free/list.jsp"
+                window.location.href="list.jsp"
             }
         });
 

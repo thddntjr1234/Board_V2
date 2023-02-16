@@ -5,6 +5,8 @@
 <%@ page import="java.time.format.DateTimeFormatter" %>
 <%@ page import="com.ebstudy.board_v2.repository.PostDAO" %>
 <%@ page import="com.ebstudy.board_v2.web.dto.PostDTO" %>
+<%@ page import="com.ebstudy.board_v2.web.dto.CategoryDTO" %>
+<%@ page import="java.util.HashMap" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css"/>
@@ -22,14 +24,23 @@
     <link rel="stylesheet" href="/webjars/bootstrap/5.1.3/css/bootstrap.css">
 </head>
 <%
-    PostDAO postDAO = PostDAO.getInstance();
+    List<CategoryDTO> categoryList = (List<CategoryDTO>) request.getAttribute("categoryList");
+    List<PostDTO> postList = (List<PostDTO>) request.getAttribute("postList");
+
+    HashMap<String, Integer> pagingValues = (HashMap<String, Integer>) request.getAttribute("pagingValues");
+
+    int totalPostCount = (int) request.getAttribute("totalPostCount");
+    int startPage = pagingValues.get("startPage");
+    int endPage = pagingValues.get("endPage");
+    int currentPage = pagingValues.get("currentPage");
+    int totalPage = pagingValues.get("totalPage");
 %>
 <body>
 <div class="container">
     <h1>게시판 - 목록</h1><br>
 </div>
 <div class="container">
-    <form class="form-inline" action="/boards/free/list.jsp" method="get">
+    <form class="form-inline" action="/WEB-INF/boards/free/list" method="get">
         <div class="input-group-sm">
             등록일
 
@@ -39,16 +50,8 @@
             <select class="form-select-sm" name="category" required>
                 <option value="all">전체 카테고리</option>
                 <%
-                    // TODO: 카테고리 분리 필요
-                    List<String> categoryList;
-                    try {
-                        categoryList = postDAO.getCategoryList();
-                    } catch (SQLException | ClassNotFoundException e) {
-                        throw new RuntimeException(e);
-                    }
-
-                    for (String category : categoryList) {
-                        out.println("<option value=" + category + ">" + category + "</option>");
+                    for (CategoryDTO category : categoryList) {
+                        out.println("<option value=" + category.getCategoryId() + ">" + category.getCategory() + "</option>");
                     }
                 %>
             </select>
@@ -59,43 +62,7 @@
 </div>
 <br>
 <div class="container">
-    <%
-        // 총 페이지 개수를 계산
-        int totalPostCount = postDAO.getPostCount();
-        int totalPage = totalPostCount / 10;
-        if (totalPostCount % 10 > 0) {
-            totalPage++;
-        }
-
-        int currentPage = 1;
-        if (request.getParameter("pageNumber") != null) {
-            currentPage = Integer.parseInt(request.getParameter("pageNumber"));
-        }
-
-        System.out.println("currentPage: " + currentPage);
-        // 만약 총 페이지수보다 높은 현재 페이지를 입력받는다면 강제로 마지막 페이지로 이동
-        if (currentPage > totalPage) {
-            currentPage = totalPage;
-        }
-
-        int startPage = ((currentPage - 1) / 10) * 10 + 1;
-        int endPage = startPage + 10 - 1;
-
-        // 마지막 페이지 보정
-        if (endPage > totalPage) {
-            endPage = totalPage;
-        }
-
-        System.out.println("startpage, endpage : " + startPage + ", " + endPage);
-
-        List<PostDTO> postLists = postDAO.getPostList(currentPage);
-        for (PostDTO postDTO : postLists) {
-            System.out.println(postDTO.toString());
-        }
-
-        Long count = (long) totalPostCount;
-    %>
-    <p> 총  <%=count%>건</p>
+    <p> 총  <%=totalPostCount%>건 </p>
 </div>
 
 <%--게시글 부분 list.get(page*1~10)으로 id값 가져오게 해야할 것 같음--%>
@@ -114,30 +81,28 @@
         </thead>
         <tbody>
         <%
-            // a태그로 /view?id=게시글번호 방식으로 넘어가도록 변경해야 함
-
             // LocalDateTime -> yyyy-MM-dd HH:mm String 타입으로 변환, modifiedDate NullPointException 방지하기 위해 값 체크
-            for (PostDTO dto : postLists) {
-                String createdDate = dto.getCreatedDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+            for (PostDTO post : postList) {
+                String createdDate = post.getCreatedDate();
                 String modifiedDate = "-";
-                if (dto.getModifiedDate() != null) {
-                    modifiedDate = dto.getModifiedDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+                if (post.getModifiedDate() != null) {
+                    modifiedDate = post.getModifiedDate();
                 }
 
                 out.println("<tr>");
-                out.println("<td>" + dto.getCategory() + "</td>");
-                if (dto.getIsHaveFile()) {
+                out.println("<td>" + post.getCategory() + "</td>");
+                if (post.getIsHaveFile()) {
                     out.println("<td> F </td>");
                 } else {
                     out.println("<td> </td>");
                 }
-                if (dto.getTitle().length() > 80) {
-                    out.println("<td class=\"d-flex justify-content-start\"><a href=\"view.jsp?id=" + dto.getId() + "\">" + dto.getTitle().substring(0, 80) + "..." + "</a></td>");
+                if (post.getTitle().length() > 80) {
+                    out.println("<td class=\"d-flex justify-content-start\"><a href=\"view.jsp?id=" + post.getPostId() + "\">" + post.getTitle().substring(0, 80) + "..." + "</a></td>");
                 } else {
-                    out.println("<td class=\"d-flex justify-content-start\"><a href=\"view.jsp?id=" + dto.getId() + "\">" + dto.getTitle() + "</a></td>");
+                    out.println("<td class=\"d-flex justify-content-start\"><a href=\"view.jsp?id=" + post.getPostId() + "\">" + post.getTitle() + "</a></td>");
                 }
-                out.println("<td>" + dto.getAuthor() + "</td>");
-                out.println("<td>" + dto.getHits() + "</td>");
+                out.println("<td>" + post.getAuthor() + "</td>");
+                out.println("<td>" + post.getHits() + "</td>");
                 out.println("<td>" + createdDate + "</td>");
                 out.println("<td>" + modifiedDate + "</td>");
                 out.println("</tr>");
@@ -176,7 +141,7 @@
     </ul>
 </div>
 <div class="d-flex justify-content-end">
-    <button class="btn btn-secondary" onclick="location.href='/boards/free/write.jsp'">등록</button>
+    <button class="btn btn-secondary" onclick="location.href='write-form.jsp'">등록</button>
 </div>
 
 

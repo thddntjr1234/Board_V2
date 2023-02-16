@@ -25,7 +25,7 @@
             </tr>
             <tr>
                 <td>
-                    <button class="btn btn-primary" onclick="location.href='/boards/free/list.jsp'">취소</button>
+                    <button class="btn btn-primary" onclick="location.href='list.jsp'">취소</button>
 <%--                    <button class="btn btn-secondary" onclick="location.href='/boards/free/<%=operation%>.jsp?postId=<%=postId%>'">확인</button>--%>
                     <button class="btn btn-secondary" onclick="function(">확인</button>
                 </td>

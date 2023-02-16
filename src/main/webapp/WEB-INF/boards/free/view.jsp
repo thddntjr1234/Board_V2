@@ -30,7 +30,7 @@
     PostDTO post = postDAO.getPost(postId);
 
     FileDAO fileDAO = FileDAO.getInstance();
-    List<FileDTO> files = fileDAO.getFileNames(post.getId());
+    List<FileDTO> files = fileDAO.getFileList(post.getPostId());
 
     CommentDAO commentDAO = CommentDAO.getInstance();
     List<CommentDTO> comments = commentDAO.getCommentList(postId);
@@ -44,11 +44,11 @@
     <div class="container">
         <span><%=post.getAuthor()%></span>
         <span class="float-end">
-            등록일시 <%=post.getCreatedDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))%>
+            등록일시 <%=post.getCreatedDate()%>
             &nbsp 수정일시
         <%
-            if (post.getCreatedDate() != null) {
-                out.println(post.getCreatedDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
+            if (post.getModifiedDate() != null) {
+                out.println(post.getCreatedDate());
             }
         %>
         </span>
@@ -107,8 +107,8 @@
     </div>
 </div>
 <div class="container d-flex justify-content-center">
-    <button class="btn btn-secondary" onclick="location.href='/boards/free/list.jsp'">목록</button>
-    <button class="btn btn-secondary" onclick="location.href='/boards/free/checkPwd.jsp?postId=<%=postId%>&operation=modify'">수정</button>
+    <button class="btn btn-secondary" onclick="location.href='list.jsp'">목록</button>
+    <button class="btn btn-secondary" onclick="location.href='checkPwd.jsp'">수정</button>
     <button class="btn btn-secondary" onclick="location.href='/boards/free/checkPwddelete.jsp?postId=<%=postId%>&operation=delete'">삭제</button>
 </div>
 <%--bootstrap, jquery--%>

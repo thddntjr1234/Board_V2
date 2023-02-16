@@ -60,9 +60,9 @@ public class PostDAO {
      * 현재 DB에 존재하는 게시글의 총 개수를 구하는 메소드
      * @return 게시글의 총 개수
      */
-    public long getPostCount() {
+    public int getPostCount() {
 
-        long count = 0L;
+        int count = 0;
 
         try {
             SqlSessionFactory sessionFactory = SessionFactory.getSessionFactory();

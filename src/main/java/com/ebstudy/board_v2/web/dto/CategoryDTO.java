@@ -6,6 +6,6 @@ import lombok.ToString;
 
 @Getter @Setter @ToString
 public class CategoryDTO {
-    Long categoryId;
-    String category;
+    private Long categoryId;
+    private String category;
 }

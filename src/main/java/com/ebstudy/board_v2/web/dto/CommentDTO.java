@@ -7,10 +7,7 @@ import lombok.ToString;
 
 import java.time.LocalDateTime;
 
-@Getter
-@Setter
-@Builder
-@ToString
+@Getter @Setter @ToString
 public class CommentDTO {
     private Long postId;
     private LocalDateTime createdDate;

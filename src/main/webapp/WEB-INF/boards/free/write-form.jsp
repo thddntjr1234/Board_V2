@@ -2,6 +2,7 @@
 <%@ page import="com.ebstudy.board_v2.repository.PostDAO" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.sql.SQLException" %>
+<%@ page import="com.ebstudy.board_v2.web.dto.CategoryDTO" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
@@ -15,13 +16,7 @@
     <%--  프론트/ajax로 유효성 검사  --%>
 </head>
 <%
-    PostDAO postDAO = PostDAO.getInstance();
-    List<String> categoryList;
-    try {
-        categoryList = postDAO.getCategoryList();
-    } catch (SQLException | ClassNotFoundException e) {
-        throw new RuntimeException(e);
-    }
+    List<CategoryDTO> categoryList = (List<CategoryDTO>) request.getAttribute("categoryList");
 %>
 <body>
 <div class="container">
@@ -34,11 +29,11 @@
             <tr>
                 <td colspan="2">카테고리</td>
                 <td>
-                    <select class="form-select-sm" name="category" name="category" required>
+                    <select class="form-select-sm" name="categoryId" required>
                         <option value="">카테고리 선택</option>
                         <%
-                            for (String category : categoryList) {
-                                out.println("<option value=" + category + ">" + category + "</option>");
+                            for (CategoryDTO category: categoryList) {
+                                out.println("<option value=" + category.getCategoryId() + ">" + category.getCategory() + "</option>");
                             }
                         %>
                     </select>
@@ -52,7 +47,7 @@
                 <td colspan="2">비밀번호</td>
                 <td>
                     <input type="password" id="input_passwd1" class="form-control-sm" name="passwd" placeholder="비밀번호" required>&nbsp
-                    <input type="password" id="input_passwd2" class="form-control-sm" name="passwdCheck"
+                    <input type="password" id="input_passwd2" class="form-control-sm" name="secondPasswd"
                            placeholder="비밀번호 확인" required>
                 </td>
             </tr>
@@ -74,7 +69,7 @@
             </tr>
             <tr>
                 <td colspan="2">
-                    <button class="btn btn-secondary" onclick="location.href='list.jsp';">취소</button>
+                    <button class="btn btn-secondary" onclick="location.href='list';">취소</button>
                 </td>
                 <td>
                     <button class="btn btn-secondary" type="submit" id="btnSubmit">저장</button>
@@ -88,9 +83,6 @@
 <script src="/webjars/jquery/3.3.1/jquery.min.js"></script>
 <script src="/webjars/bootstrap/5.1.3/js/bootstrap.min.js"></script>
 <script>
-    $(function () {
-        console.log("jquery 동작");
-    })
     $("#boardForm").on("submit", function (event) {
         event.preventDefault();
 
@@ -127,7 +119,6 @@
         console.log("내용 조건 통과");
 
         console.log("유효성 검사 통과, ajax로 서버사이드 유효성 검증 실행");
-        // 이 라인까지 도달했으면 front에서의 유효성 검증은 종료, 서버에 ajax로 writeAction.jsp 호출해서 현재 페이지에서 검증 후 db insert
         let form = $("#boardForm")[0];
         let formData = new FormData(form);
 
@@ -136,20 +127,18 @@
             enctype: 'multipart/form-data',
             processData: false,
             contentType: false,
-            url: "/boards/free/writeAction.jsp",
+            url: "/boards/free/write-save",
             async: false,
             data: formData,
-            error: function (e) {
-                alert(e);
+            error: function () {
+                alert("잘못된 정보를 송신했습니다. 다시 입력하세요");
             },
             success: function () {
                 console.log("success");
                 alert("저장 성공");
-                window.location.href="list.jsp"
+                window.location.href='/boards/free/list'
             }
         });
-
-        return;
     });
 </script>
 </body>

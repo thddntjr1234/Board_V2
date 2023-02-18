@@ -8,6 +8,7 @@
 <%@ page import="com.ebstudy.board_v2.repository.CommentDAO" %>
 <%@ page import="com.ebstudy.board_v2.web.dto.FileDTO" %>
 <%@ page import="com.ebstudy.board_v2.web.dto.CommentDTO" %>
+<%@ page import="java.text.SimpleDateFormat" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
@@ -23,17 +24,12 @@
     request.setCharacterEncoding("utf-8");
 
     // TODO: postId가 전달되지 않을 경우(예외)를 고려하자
-    Long postId = Long.valueOf(request.getParameter("id"));
+    // ex) view?postId=2가 아니라 view만 입력하게 되면 500에러를 내뱉는데 이러한
 
-    PostDAO postDAO = PostDAO.getInstance();
-    postDAO.increaseHits(postId);
-    PostDTO post = postDAO.getPost(postId);
+    PostDTO post = (PostDTO) request.getAttribute("post");
 
-    FileDAO fileDAO = FileDAO.getInstance();
-    List<FileDTO> files = fileDAO.getFileList(post.getPostId());
-
-    CommentDAO commentDAO = CommentDAO.getInstance();
-    List<CommentDTO> comments = commentDAO.getCommentList(postId);
+    List<FileDTO> files = (List<FileDTO>) request.getAttribute("files");
+    List<CommentDTO> comments = (List<CommentDTO>) request.getAttribute("comments");
 %>
 <body>
 <div class="container">
@@ -44,11 +40,11 @@
     <div class="container">
         <span><%=post.getAuthor()%></span>
         <span class="float-end">
-            등록일시 <%=post.getCreatedDate()%>
+            등록일시 <%= post.getCreatedDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))%>
             &nbsp 수정일시
         <%
             if (post.getModifiedDate() != null) {
-                out.println(post.getCreatedDate());
+                out.println(post.getModifiedDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
             }
         %>
         </span>
@@ -100,7 +96,7 @@
             <textarea class="form-control border border-secondary" rows="2" name="comment"></textarea>
             <div class="d-flex justify-content-end">
                 <button class="btn btn-primary d-flex justify-content-sm-end" type="button"
-                        onclick="saveComment(<%=postId%>)">등록
+                        onclick="saveComment(<%=post.getPostId()%>)">등록
                 </button>
             </div>
         </form>
@@ -109,7 +105,7 @@
 <div class="container d-flex justify-content-center">
     <button class="btn btn-secondary" onclick="location.href='list.jsp'">목록</button>
     <button class="btn btn-secondary" onclick="location.href='checkPwd.jsp'">수정</button>
-    <button class="btn btn-secondary" onclick="location.href='/boards/free/checkPwddelete.jsp?postId=<%=postId%>&operation=delete'">삭제</button>
+    <button class="btn btn-secondary" onclick="location.href='/boards/free/checkPwddelete.jsp?postId=<%=post.getPostId()%>&operation=delete'">삭제</button>
 </div>
 <%--bootstrap, jquery--%>
 <script src="/webjars/jquery/3.3.1/jquery.min.js"></script>
@@ -165,14 +161,14 @@
         console.log("formdata = ", formData);
         $.ajax({
             type: "POST",
-            url: "/boards/free/commentAction.jsp",
+            url: "/boards/free/comment",
             data: formData,
             error: function (e) {
                 alert("전송 실패", e);
             },
             success: function () {
                 alert("댓글 작성 성공");
-                window.location.href = "/boards/free/view.jsp?id=" + postId;
+                location.href='/boards/free/view?postId=' + postId;
             }
         });
     }

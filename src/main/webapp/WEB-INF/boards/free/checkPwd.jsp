@@ -20,7 +20,7 @@
             <tr>
                 <td> 비밀번호</td>
                 <td>
-                    <input class="form-control-lg" type="password" id="inputPasswd" name="inputPasswd">
+                    <input class="form-control-lg" type="password" id="inputPasswd" name="checkPasswd">
                 </td>
             </tr>
             <tr>

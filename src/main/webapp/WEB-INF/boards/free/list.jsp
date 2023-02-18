@@ -83,10 +83,10 @@
         <%
             // LocalDateTime -> yyyy-MM-dd HH:mm String 타입으로 변환, modifiedDate NullPointException 방지하기 위해 값 체크
             for (PostDTO post : postList) {
-                String createdDate = post.getCreatedDate();
+                String createdDate = post.getCreatedDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
                 String modifiedDate = "-";
                 if (post.getModifiedDate() != null) {
-                    modifiedDate = post.getModifiedDate();
+                    modifiedDate = post.getModifiedDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
                 }
 
                 out.println("<tr>");
@@ -97,9 +97,9 @@
                     out.println("<td> </td>");
                 }
                 if (post.getTitle().length() > 80) {
-                    out.println("<td class=\"d-flex justify-content-start\"><a href=\"view.jsp?id=" + post.getPostId() + "\">" + post.getTitle().substring(0, 80) + "..." + "</a></td>");
+                    out.println("<td class=\"d-flex justify-content-start\"><a href=\"view?postId=" + post.getPostId() + "\">" + post.getTitle().substring(0, 80) + "..." + "</a></td>");
                 } else {
-                    out.println("<td class=\"d-flex justify-content-start\"><a href=\"view.jsp?id=" + post.getPostId() + "\">" + post.getTitle() + "</a></td>");
+                    out.println("<td class=\"d-flex justify-content-start\"><a href=\"view?postId=" + post.getPostId() + "\">" + post.getTitle() + "</a></td>");
                 }
                 out.println("<td>" + post.getAuthor() + "</td>");
                 out.println("<td>" + post.getHits() + "</td>");
@@ -116,21 +116,21 @@
     <ul class="pagination">
         <%
             if (startPage > 1) {
-                out.println("<li class=\"page-item\"><a class=\"page-link\" href=\"list.jsp?pageNumber=1\">처음</a></li>");
+                out.println("<li class=\"page-item\"><a class=\"page-link\" href=\"list?pageNumber=1\">처음</a></li>");
             }
 
             if (currentPage > 1) {
-                out.println("<li class=\"page-item\"><a class=\"page-link\" href=\"list.jsp?pageNumber=" + (currentPage - 1) + "\">이전</a></li>");
+                out.println("<li class=\"page-item\"><a class=\"page-link\" href=\"list?pageNumber=" + (currentPage - 1) + "\">이전</a></li>");
 
             }
 
             for (int i = startPage; i <= endPage; i++) {
                 out.println(
-                        "<li class=\"page-item\"><a class=\"page-link\" href=\"list.jsp?pageNumber=" + i + "\">" + i + "</a></li>");
+                        "<li class=\"page-item\"><a class=\"page-link\" href=\"list?pageNumber=" + i + "\">" + i + "</a></li>");
             }
 
             if (currentPage < totalPage) {
-                out.println("<li class=\"page-item\"><a class=\"page-link\" href=\"list.jsp?pageNumber=" + (currentPage + 1) + "\">다음</a></li>");
+                out.println("<li class=\"page-item\"><a class=\"page-link\" href=\"list?pageNumber=" + (currentPage + 1) + "\">다음</a></li>");
             }
 
             if (endPage < totalPage) {
@@ -141,7 +141,7 @@
     </ul>
 </div>
 <div class="d-flex justify-content-end">
-    <button class="btn btn-secondary" onclick="location.href='write-form.jsp'">등록</button>
+    <button class="btn btn-secondary" onclick="location.href='write'">등록</button>
 </div>
 
 

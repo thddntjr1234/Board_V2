@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- namespace : package + classname -->
 <mapper namespace="com.ebstudy.board_v2.repository.BoardMapper">
-    <resultMap type="com.ebstudy.board_v2.web.dto.PostDTO" id="mappingPostDTO">
+    <resultMap type="com.ebstudy.board_v2.web.dto.PostDTO" id="mapPostDTO">
         <result property="postId" column="post_id"/>
         <result property="categoryId" column="category_id"/>
         <result property="isHaveFile" column="file_flag"/>
@@ -23,14 +23,14 @@
         <result property="fileRealName" column="file_realname"/>
     </resultMap>
 
-    <resultMap id="mapComment" type="com.ebstudy.board_v2.web.dto.CommentDTO">
+    <resultMap id="mapCommentDTO" type="com.ebstudy.board_v2.web.dto.CommentDTO">
         <result property="postId" column="post_id"/>
         <result property="createdDate" column="created_date"/>
     </resultMap>
 
     <!--    PostDAO가 사용하는 부분-->
     <select id="getPostList" parameterType="int" resultType="com.ebstudy.board_v2.web.dto.PostDTO"
-            resultMap="mappingPostDTO">
+            resultMap="mapPostDTO">
         SELECT *
         FROM posts A
                  LEFT JOIN categorys B ON A.category_id = B.category_id
@@ -44,14 +44,15 @@
     </select>
 
     <select id="getPost" parameterType="long" resultType="com.ebstudy.board_v2.web.dto.PostDTO"
-            resultMap="mappingPostDTO">
+            resultMap="mapPostDTO">
         SELECT *
         FROM posts A
                  LEFT JOIN categorys B ON A.category_id = B.category_id
         WHERE post_id = #{postId};
     </select>
 
-    <select id="getCategoryList" resultType="com.ebstudy.board_v2.web.dto.CategoryDTO">
+    <select id="getCategoryList" resultType="com.ebstudy.board_v2.web.dto.CategoryDTO"
+            resultMap="mapCategoryDTO">
         SELECT *
         FROM categorys;
     </select>
@@ -69,20 +70,28 @@
         WHERE post_id = #{postId};
     </update>
 
+    <update id="updateFileFlag" parameterType="long">
+        UPDATE posts
+        SET file_flag = 1
+        WHERE post_id =
+    </update>
+
     <!--    FileDAO가 사용하는 부분-->
     <insert id="saveFile" parameterType="com.ebstudy.board_v2.web.dto.FileDTO">
         INSERT INTO files(file_name, file_realname, post_id)
         VALUES (#{fileName}, #{fileRealName}, #{postId});
     </insert>
 
-    <select id="getFileList" parameterType="long" resultType="com.ebstudy.board_v2.web.dto.FileDTO">
+    <select id="getFileList" parameterType="long" resultType="com.ebstudy.board_v2.web.dto.FileDTO"
+            resultMap="mapFileDTO">
         SELECT *
         FROM files
         WHERE post_id = #{postId};
     </select>
 
     <!--    CommentDAO가 사용하는 부분-->
-    <select id="getCommentList" parameterType="long" resultType="com.ebstudy.board_v2.web.dto.CommentDTO">
+    <select id="getCommentList" parameterType="long" resultType="com.ebstudy.board_v2.web.dto.CommentDTO"
+            resultMap="mapCommentDTO">
         SELECT *
         FROM comments
         WHERE post_id = #{postId}

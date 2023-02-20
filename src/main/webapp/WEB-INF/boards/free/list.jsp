@@ -28,6 +28,7 @@
     List<PostDTO> postList = (List<PostDTO>) request.getAttribute("postList");
 
     HashMap<String, Integer> pagingValues = (HashMap<String, Integer>) request.getAttribute("pagingValues");
+    HashMap<Long, Boolean> postFileFlagList = (HashMap<Long, Boolean>) request.getAttribute("postFileFlagList");
 
     int totalPostCount = (int) request.getAttribute("totalPostCount");
     int startPage = pagingValues.get("startPage");
@@ -91,7 +92,8 @@
 
                 out.println("<tr>");
                 out.println("<td>" + post.getCategory() + "</td>");
-                if (post.getIsHaveFile()) {
+
+                if (postFileFlagList.get(post.getPostId())) {
                     out.println("<td> F </td>");
                 } else {
                     out.println("<td> </td>");

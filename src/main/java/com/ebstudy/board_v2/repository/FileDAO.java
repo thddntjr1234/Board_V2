@@ -38,15 +38,16 @@ public class FileDAO {
 
         } catch (Exception e) {
             e.printStackTrace();
+            throw e;
         }
     }
 
     /**
      * 데이터베이스 상에 저장된 파일의 이름과 실제 이름을 dto로 반환
-     * @param postid: 가져올 파일의 게시글 인덱스
+     * @param postId: 가져올 파일의 게시글 인덱스
      * @return 게시글 id값을 포함한 파일의 이름과 실제 이름 리스트
      */
-    public List<FileDTO> getFileList(long postid) {
+    public List<FileDTO> getFileList(long postId) {
 
         List<FileDTO> files = new ArrayList<>();
 
@@ -55,14 +56,35 @@ public class FileDAO {
             SqlSession session = sessionFactory.openSession(true);
             BoardMapper mapper = session.getMapper(BoardMapper.class);
 
-            files = mapper.getFileList(postid);
+            files = mapper.getFileList(postId);
             session.close();
 
         } catch (Exception e) {
             e.printStackTrace();
+            throw e;
         }
 
         return files;
+    }
+
+    public boolean checkFileExistence(long postId) {
+
+        boolean isFileExist = false;
+
+        try {
+            SqlSessionFactory sessionFactory = SessionFactory.getSessionFactory();
+            SqlSession session = sessionFactory.openSession(true);
+            BoardMapper mapper = session.getMapper(BoardMapper.class);
+
+            isFileExist = mapper.checkFileExistence(postId);
+            session.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
+
+        return isFileExist;
     }
 
 }

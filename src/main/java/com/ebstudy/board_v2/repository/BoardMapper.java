@@ -23,6 +23,8 @@ public interface BoardMapper {
 
     List<FileDTO> getFileList(long postId);
 
+    boolean checkFileExistence(long postId);
+
     void saveFile(FileDTO file);
 
     List<CommentDTO> getCommentList(long postId);

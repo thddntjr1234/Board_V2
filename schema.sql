@@ -7,7 +7,6 @@ CREATE TABLE `posts` (
                          `content`	TEXT	NULL,
                          `hits`	bigint	NOT NULL	DEFAULT 0,
                          `passwd`	varchar(255)	NULL,
-                         `file_flag`	boolean	NOT NULL	DEFAULT false,
                          `category_id`	bigint	NOT NULL
 );
 

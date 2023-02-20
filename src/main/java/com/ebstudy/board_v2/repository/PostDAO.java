@@ -50,9 +50,6 @@ public class PostDAO {
             e.printStackTrace();
         }
 
-        for(PostDTO post : posts) {
-            System.out.println(post.toString());
-        }
         return posts;
     }
 
@@ -109,7 +106,6 @@ public class PostDAO {
      */
     public long savePost(PostDTO post) {
 
-        // TODO: 단방향 암호화 구현하기
         long id = 0L;
 
         try {
@@ -117,7 +113,8 @@ public class PostDAO {
             SqlSession session = sessionFactory.openSession(true);
             BoardMapper mapper = session.getMapper(BoardMapper.class);
 
-            id = mapper.savePost(post);
+            mapper.savePost(post);
+            id = post.getPostId();
             session.close();
 
         } catch (Exception e) {

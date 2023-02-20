@@ -23,7 +23,6 @@
 <%
     request.setCharacterEncoding("utf-8");
 
-    // TODO: postId가 전달되지 않을 경우(예외)를 고려하자
     // ex) view?postId=2가 아니라 view만 입력하게 되면 500에러를 내뱉는데 이러한
 
     PostDTO post = (PostDTO) request.getAttribute("post");
@@ -103,7 +102,7 @@
     </div>
 </div>
 <div class="container d-flex justify-content-center">
-    <button class="btn btn-secondary" onclick="location.href='list.jsp'">목록</button>
+    <button class="btn btn-secondary" onclick="location.href='list'">목록</button>
     <button class="btn btn-secondary" onclick="location.href='checkPwd.jsp'">수정</button>
     <button class="btn btn-secondary" onclick="location.href='/boards/free/checkPwddelete.jsp?postId=<%=post.getPostId()%>&operation=delete'">삭제</button>
 </div>

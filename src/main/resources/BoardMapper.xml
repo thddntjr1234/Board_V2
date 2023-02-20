@@ -6,7 +6,6 @@
     <resultMap type="com.ebstudy.board_v2.web.dto.PostDTO" id="mapPostDTO">
         <result property="postId" column="post_id"/>
         <result property="categoryId" column="category_id"/>
-        <result property="isHaveFile" column="file_flag"/>
         <result property="createdDate" column="created_date"/>
         <result property="modifiedDate" column="modified_date"/>
     </resultMap>
@@ -70,12 +69,6 @@
         WHERE post_id = #{postId};
     </update>
 
-    <update id="updateFileFlag" parameterType="long">
-        UPDATE posts
-        SET file_flag = 1
-        WHERE post_id =
-    </update>
-
     <!--    FileDAO가 사용하는 부분-->
     <insert id="saveFile" parameterType="com.ebstudy.board_v2.web.dto.FileDTO">
         INSERT INTO files(file_name, file_realname, post_id)
@@ -87,6 +80,13 @@
         SELECT *
         FROM files
         WHERE post_id = #{postId};
+    </select>
+
+    <select id="checkFileExistence" parameterType="long" resultType="boolean">
+        SELECT EXISTS
+                   (SELECT 1
+                    FROM files
+                    WHERE post_id = #{postId})
     </select>
 
     <!--    CommentDAO가 사용하는 부분-->
